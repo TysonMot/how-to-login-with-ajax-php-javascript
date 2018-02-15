@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
+        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <title>How to login on different plstforms using one html form with php, Ajax, Js</title>
+
+<style>
+body, .upage, .upage-outer {
+	width:100%;
+	float:left;
+	margin:0% auto;
+	background-color:gainsboro;
+}
+.app-login {
+	width:40%;
+	margin:7% auto;
+}
+h1 {
+	font-size:120%;
+}
+.form-login input[type=email], .form-login input[type=password]{
+	width:100%;
+	padding:4%;
+	border-radius:4px;
+	border:1px grey solid;
+	margin:0.5%;
+}
+.form-login button {
+	padding:2%;
+	box-shadow:2px 2px 2px grey;
+	margin:0.5%;
+	border-radius:4px;
+}
+@media only screen and (max-width: 1250px) { 
+	body {
+		width:100%;
+	float:left;
+	margin:0% auto;
+	background-color:gainsboro;
+	}
+.app-login {
+	width:100%;
+}
+.form-login input[type=email], .form-login input[type=password]{
+	width:95%;
+	padding:2%;
+	border-radius:4px;
+	border:1px grey solid;
+	margin:0.5%;
+}
+}
+
+</style>
+
+
+</head>
+<body>
+    <div class="upage" id="mainpage">
+        <div class="upage-outer">
+                        <div class="app-login">
+                            <div class="form-login">
+                                <h1>Sign in to different pages. example By Tyson with a responsive layout</h1>
+                                <span id="message" style="color:red"></span> 
+                                <input type="email" id="email" placeholder="Email" required data-validation-required-message="email is required." autofocus />
+                                <input type="password" id="password" placeholder="Password" required data-validation-required-message="password is required." />
+                                <button type="submit" id="btnSubmit">Sign in</button>
+                                <p>Codes were coded by Tyson</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    <script>
+
+        //////
+        $(document).ready(function () {
+
+            $("#btnSubmit").click(function (event) {
+                var email = $("#email").val();
+                var password = $("#password").val();
+         
+                ////
+                var atpos = email.indexOf("@");
+                var dotpos = email.lastIndexOf(".");
+                ////
+                if ( email == "" || password == "" ) {
+                    document.getElementById('message').innerHTML = 'Please enter email and password.';
+                } else if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= email.length) {
+                    document.getElementById('message').innerHTML = 'Wrong email address, it has to contain @ and .';
+                    return false;
+                } else {
+                    /////
+                    $.ajax({
+                        type: "POST",
+                        url: "process.php",
+                        ///change to your server url
+                        data: { "done": 1, email: email,  password: password },
+                        cache: false,
+                        success: function (data) {
+                            if (data == 0) {
+                                document.getElementById('feedback').innerHTML = 'Sucessfully logged in,now redirecting...';
+                                setInterval(function () {
+                                    window.location.href = 'dashboard.html';
+                                    ///
+                                }, 5000);
+                            } else {
+                                document.getElementById('message').innerHTML = 'Wrong email or password, try again..';
+                                setInterval(function () {
+                                    window.location.href = 'login.html';
+                                }, 5000);
+                            }
+                        },
+                        error: function (e) {
+                            document.getElementById('feedback').innerHTML = 'Network error, please check your network';
+                        }
+                    });
+                }
+
+                ////////
+            });
+
+        });
+        /////
+    </script>
+</body>
+</html>
