@@ -111,8 +111,14 @@ h1 {
                                     window.location.href = 'dashboard.html';
                                     ///
                                 }, 5000);
-                            } else {
-                                document.getElementById('message').innerHTML = 'Wrong email or password, try again..';
+                            } else if(data == 1) {
+                                 document.getElementById('feedback').innerHTML = 'Sucessfully logged in,now redirecting...';
+                                setInterval(function () {
+                                    window.location.href = 'dashboard_admin.html';
+                                    ///
+                                }, 5000);
+                            }else {
+                                  document.getElementById('message').innerHTML = 'Wrong email or password, try again..';
                                 setInterval(function () {
                                     window.location.href = 'login.html';
                                 }, 5000);
